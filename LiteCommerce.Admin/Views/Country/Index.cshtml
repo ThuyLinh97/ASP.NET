@@ -1,0 +1,89 @@
+﻿@model LiteCommerce.Admin.Models.CountryPaginationResult
+@{
+    ViewBag.Title = "Manage Country";
+    int i = 1;
+}
+<div class="box box-primary">
+    <div class="box-body">
+        <form action="~/Country" method="get">
+            <div class="input-group input-group-sm">
+                <input name="searchValue" type="text" class="form-control" placeholder="Input search value..." value="@Model.SearchValue.Trim()">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+<form action="~/Country/Delete" method="post">
+    <div class="container-fluid row lc-margin-bottom">
+        <div class="col-sm-8">
+            There are <b>@Model.RowCount</b> Country . Page @string.Format("{0}/{1}", Model.Page, Model.PageCount)
+        </div>
+        <div class="col-md-4 text-right">
+            <div class="btn-group">
+                <a href="~/Country/Input" class="btn btn-sm btn-primary">Add Country</a>
+                <button type="submit" class="btn btn-sm btn-danger">Delete Countries</button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width:30px">
+                            <input type="checkbox" id="select-all" />
+                        </th>
+                        <th style="width:auto;text-align:center">STT</th>
+                        <th style="width:auto;text-align:center">Name</th>
+                        <th style="width:auto"></th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    @*name trùng với tên biến trong Controller*@
+                    @foreach (var country in Model.Data)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="countryNames" value="@country.CountryName" />
+                            </td>
+                            <td>@(i++ + (@Model.Page - 1) * (@Model.PageSize))</td>
+                            <td>
+                                <span class="lc-company-name">
+                                    @country.CountryName
+                                </span>  
+                            <td class="text-center">
+                                <a class="btn btn-sm btn-default" href="~/Country/Input/@country.CountryName/">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer clearfix text-center">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="~/Country?page=1&searchValue=@Model.SearchValue">«</a></li>
+                @for (int page = 1; page <= Model.PageCount; page++)
+
+                {
+                    if (page == Model.Page)
+                    {
+                        <li class="active"><a href="#">@page</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="~/Country?page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                    }
+
+                }
+                <li><a href="~/Country?page=@Model.PageCount&searchValue=@Model.SearchValue">»</a></li>
+            </ul>
+        </div>
+    </div>
+</form>
+

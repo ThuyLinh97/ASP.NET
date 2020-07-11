@@ -1,0 +1,190 @@
+﻿@model LiteCommerce.Admin.Models.OrderPaginationResult
+@{
+    ViewBag.Title = "Manage Orders";
+    int i = 1;
+}
+<div class="box box-primary">
+
+    <div class="box-body">
+        <form action="~/Order" method="get">
+            <div class="input-group input-group-sm">
+                <input name="searchValue" type="text" class="form-control" placeholder="Input search value..." value="@Model.SearchValue">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+<form action="~/Order/Delete" method="post">
+    <div class="container-fluid row lc-margin-bottom">
+        <div class="col-sm-8">
+            There are <b>@Model.RowCount</b> Orders . Page @string.Format("{0}/{1}", Model.Page, Model.PageCount)
+        </div>
+        <div class="col-md-4 text-right">
+            <div class="btn-group">
+                <button type="submit" class="btn btn-sm btn-danger">Delete Orders</button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width:30px">
+                            <input type="checkbox" id="select-all" />
+                        </th>
+                        <th style="width:50px">#</th>
+                        <th style="width:auto">Customer</th>
+                        <th style="width:auto">Employee</th>
+                        <th style="width:auto">Shipper</th>
+                        <th style="width:auto">Orderdate</th>
+                        <th style="width:auto">ShipAddress</th>
+                        <th style="width:100px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Data)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="OrderIDs" value="@order.OrderID" />
+                            </td>
+                            <td>@(i++ + (@Model.Page - 1) * (@Model.PageSize))</td>
+                            <td>
+                                @*  @Html.DropDownListFor(m => m.Employee, SelectListHelper.Employees(), new { @class = "form-control" })*@
+                                @foreach (var customer in SelectListHelper.Customer())
+                                {
+                                    if (order.CustomerID.ToString() == customer.Value.ToString())
+                                    {
+                                        <span class="lc-company-name">@customer.Text</span>
+                                    }
+
+                                }
+                            </td>
+                            <td>
+                                @*@Html.DropDownListFor(m => m.Customer, SelectListHelper.Customer(), new { @class = "form-control" })*@
+           
+                                @foreach (var employee in SelectListHelper.Employees())
+                                {
+                                    if (order.EmployeeID.ToString() == employee.Value.ToString())
+                                    {
+                                        <span>@employee.Text</span>
+                                    }
+
+                                }
+                            </td>
+                            <td>
+                              @*  @Html.DropDownListFor(m => m.Employee, SelectListHelper.Employees(), new { @class = "form-control" })*@
+                                @foreach (var shipper in SelectListHelper.Shipper())
+                                {
+                                    if (order.ShipperID.ToString() == shipper.Value.ToString())
+                                    {
+                                        <span>@shipper.Text</span>
+                                    }
+
+                                }
+                            </td>
+                            
+                            <td>
+                                <span> @order.OrderDate</span>
+                            </td>
+                            <td>
+                                <span>@order.ShipAddress</span><br />
+                                <span>@order.ShipCity</span><br />
+                                <span>@order.ShipCountry</span>
+                            </td>
+
+                            <td class="">
+                                <a class="btn btn-sm btn-default text-left" href="~/Order/Input/@order.OrderID/">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn btn-sm btn-default text-right" href="~/Order/Detail/@order.OrderID/">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                    </table>
+                </div>
+
+        <div class="box-footer clearfix text-center">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="~/Order?page=1&searchValue=@Model.SearchValue">«</a></li>
+              
+               @if (Model.Page > 3 && Model.Page <= Model.PageCount - 3)
+               {
+                   if (Model.Page - 3 > 0)
+                   {
+                    <li><a>...</a></li>
+                   }
+                   for (int page = Model.Page - 2; page <= Model.Page + 2; page++)
+                   {
+                       if (page == Model.Page)
+                       {
+                        <li class="active"><a href="#">@page</a></li>
+                       }
+                       else
+                       {
+                        @*<li><a href="~/Order?Country=@Model.Country&SearchValue=@Model.SearchValue&Page=@page">@page</a></li>*@
+                        <li><a href="~/Order?page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                       }
+                   }
+                   if (Model.Page + 3 <= Model.PageCount)
+                   {
+                    <li><a>...</a></li>
+                   }
+               }
+               else if (Model.Page <= 3)
+               {
+                   var testpage = Model.PageCount;
+                   if (Model.PageCount > 4)
+                   {
+                       testpage = Model.Page + 2;
+                   }
+                   for (int page = 1; page <= testpage; page++)
+                   {
+                       if (page == Model.Page)
+                       {
+                        <li class="active"><a href="#">@page</a></li>
+                       }
+                       else
+                       {
+                        <li><a href="~/Order?page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                       }
+                   }
+                   if (Model.PageCount > 4)
+                   {
+                    <li><a>...</a></li>
+                   }
+               }
+               else
+               {
+                   if (Model.PageCount - 3 > 0)
+                   {
+                    <li><a>...</a></li>
+                   }
+                   for (int page = Model.Page - 2; page <= Model.PageCount; page++)
+                   {
+                       if (page == Model.Page)
+                       {
+                        <li class="active"><a href="#">@page</a></li>
+                       }
+                       else
+                       {
+                        <li><a href="~/Order?page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                       }
+                   }
+               }
+                <li><a href="~/Order?page=@Model.PageCount&searchValue=@Model.SearchValue">»</a></li>
+            </ul>
+        </div>
+    </div>
+</form>
+
+
+

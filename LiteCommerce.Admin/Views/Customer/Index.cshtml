@@ -1,0 +1,192 @@
+﻿@model LiteCommerce.Admin.Models.CustomerPagitionResult
+
+@{
+    ViewBag.Title = "Manage Customers";
+    int i = 1;
+}
+<div class="container"style="margin-bottom:10px">
+    <div class="box box-primary">
+                <form action="~/Customer" method="get">
+                    <div class="row" style="display:flex;margin-left:10px;margin-right:10px;margin-bottom:10px;margin-top:10px">
+                        <div class="" style="flex:1">
+                            <select class="form-control" name="country">
+                                @foreach (var country in SelectListHelper.Countries())
+                                {
+                                    if (Model.Country == country.Value)
+                                    {
+                                        <option value="@country.Value" selected>@country.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@country.Value">@country.Text</option>
+                                    }
+                                }
+                            </select>
+                           
+                        </div>
+                        <div class="input-group " style="flex:2;margin-right:80px;;margin-left:10px;margin-bottom:10px;margin-top:1px">
+                            <input type="text" class="form-control" placeholder="Input search value..." name="searchValue" value="@Model.SearchValue">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                 </div>
+            </form>
+     </div>
+ </div>
+<form action="~/Customer/Delete" method="post">
+    <div class="container-fluid row lc-margin-bottom">
+        <div class="col-sm-8">
+            There are <b>@Model.RowCount</b> Customers . Page @string.Format("{0}/{1}", Model.Page, Model.PageCount)
+        </div>
+        <div class="col-md-4 text-right">
+            <div class="btn-group">
+                <a href="~/Customer/Input" class="btn btn-sm btn-primary">Add Customer</a>
+                <button type="submit" class="btn btn-sm btn-danger">Delete Customers</button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width:30px">
+                            <input type="checkbox" id="select-all" />
+                        </th>
+                        <th style="width:50px">#</th>
+                        <th style="width:auto">Name</th>
+                        <th style="width:200px">Address</th>
+                        <th style="width:200px">Country</th>
+                        <th style="width:200px">Contact Info</th>
+                        <th style="width:80px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customer in Model.Data)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="CustomerIDs" value="@customer.CustomerID" />
+                            </td>
+                            <td>@(i++ + (@Model.Page - 1) * (@Model.PageSize))</td>
+                            <td>
+                                <span class="lc-company-name">
+                                    @customer.CompanyName
+                                </span>
+                                <span class="lc-contact-title">
+                                    @customer.ContactTitle
+                                </span>
+                                <span class="lc-contact-name">
+                                    @customer.ContactName
+                                </span>
+                            </td>
+                            <td>
+                                <span style="display:block">@customer.Address</span>
+                                <span>@customer.City</span>
+                            </td>
+                            <td>                             
+                                <span>@customer.Country</span>
+                            </td>
+                            <td>
+                                <span style="display:block"><i class="fa fa-phone"></i>@customer.Phone</span>
+                                <span style="display:block"><i class="fa fa-fax"></i> @customer.Fax</span>
+                            </td>
+                            <td class="text-right">
+                                <a class="btn btn-sm btn-default" href="~/Customer/Input/@customer.CustomerID/">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer clearfix text-center">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="~/Customer?page=1&searchValue=@Model.SearchValue">«</a></li>
+                @*@for (int page = 1; page <= Model.RowCount; page++)
+                {
+
+                    if (page == Model.Page)
+                    {
+                        <li class="active"><a href="#">@page</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="~/Customer?page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                    }
+
+                }*@
+               
+                    @if (Model.Page > 3 && Model.Page <= Model.PageCount - 3)
+                    {
+                        if (Model.Page - 3 > 0)
+                        {
+                            <li><a>...</a></li>
+                        }
+                        for (int page = Model.Page - 2; page <= Model.Page + 2; page++)
+                        {
+                            if (page == Model.Page)
+                            {
+                                <li class="active"><a href="#">@page</a></li>
+                            }
+                            else
+                            {
+                                @*<li><a href="~/Order?Country=@Model.Country&SearchValue=@Model.SearchValue&Page=@page">@page</a></li>*@
+                                <li><a href="~/Customer?Country=@Model.Country&page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                            }
+                        }
+                        if (Model.Page + 3 <= Model.PageCount)
+                        {
+                            <li><a>...</a></li>
+                        }
+                    }
+                    else if (Model.Page <= 3)
+                    {
+                        var testpage = Model.PageCount;
+                        if (Model.PageCount > 4)
+                        {
+                            testpage = Model.Page + 2;
+                        }
+                        for (int page = 1; page <= testpage; page++)
+                        {
+                            if (page == Model.Page)
+                            {
+                                <li class="active"><a href="#">@page</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="~/Customer?Country=@Model.Country&page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                            }
+                        }
+                        if (Model.PageCount > 4)
+                        {
+                            <li><a>...</a></li>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.PageCount - 3 > 0)
+                        {
+                            <li><a>...</a></li>
+                        }
+                        for (int page = Model.Page - 2; page <= Model.PageCount; page++)
+                        {
+                            if (page == Model.Page)
+                            {
+                                <li class="active"><a href="#">@page</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="~/Customer?Country=@Model.Country&page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                            }
+                        }
+                    }
+                <li><a href="~/Customer?page=@Model.PageCount&searchValue=@Model.SearchValue">»</a></li>
+             </ul>
+        </div>
+    </div>
+</form>

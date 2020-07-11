@@ -1,0 +1,142 @@
+﻿WEB
+			/**********  14/05/2020    ***************/
+-	comment:			crtl+K+C, đống comment: CTRL+U+C
+-	copy từ dòng trên : crtl+D
+-	muốn cấu hình bảo mật Web.config
+
+	+	[Authentication]: 
+		 kiểm tra xem có quyền thực hiện chức năng gì đó hay không , viết ở web.config như pass, mã pin
+		 <authentication mode ="Forms">
+		  <forms name="LiteCommerce" loginUrl="~/Account/SignIn" timeout="600"/>
+		</authentication>
+	
+-	[Authorize]: cần xác thực
+-	[AllowAnoymous]: không cần xác thực 
+
+-	truyền :bắt buộc có thuộc tính name
+	+   truyền dạng mảng: cùng giá trị name
+	+	nhưng tham số bình thường: khai báo name phân biệt
+
+-	[ValidateAntiForgeryToken]-(Mã thông báo chống giả mạo tự động):
+	+	không yêu cầu Authorize, kiểm tra độ hợp lệ, tạo ra chuỗi mã hóa( chỉ sd cho method= post)
+	+	[ValidateAntiForgeryToken] khai báo ở controller và phải có @Html.AntiForgeryToken() khai báo ở form trong View
+-	PacalCase: viết hoa chữ cái đầu ( khai báo tên lớp)
+-	camelCase:bắt đầu bằng chữ thương, viết hoa các chữ còn lại( khai báo biến)
+-	post: dữ liệu nằm trong body
+-	get:dữ liệu truyền lên trên URL
+-	TaskList: //TODO (View->TaskList)
+
+-	Để hiện thị thông báo lỗi từ form về action (hay hiển thị từ controller -> view) có 2 cách:
+	+	ViewBag
+	+	ModelState.AddModelError("key", "nội dung");- đảm bảo tính chặt chẽ
+-	Để hiện thi view-> action
+		sd View(model)
+-	Identity
+
+
+							/************  21/05/2020  ***************/
+
+-	Domain Model: tập hợp các lớp trong CSDL
+-	Datalayer: giao tiếp với DomainModel
+-	BussinessLayer
+=>	Kiến trúc 3-Layers
+-	solid: 
+		Single responsibility principle
+		Open/closed principle
+		Liskov substitution principle
+		Interface segregation principle
+		Dependency inversion principle
+-	LiteCommerce.DataLayer: kế thừa LiteCommerce.DomainModels
+	+	References(click chuột phải)
+-	Đa hình là gì? các đối tượng thuôc các lớp kế thừa 1 lớp cha
+-	Ctrl+M+O( đống comment), ctrl+M+L(xổ comment ra)
+
+-	Tham biến, tham trị?
+		+ “Tham số” là dữ liệu đầu vào của phương thức.
+		+ “Tham chiếu” là cách để phương thức lấy dữ liệu.
+		+ “Tham trị” là cách tham chiếu để sử dụng khi không có nhu cầu thay đổi giá trị của biến đầu vào.
+		+ “Tham biến” là cách tham chiếu để sử dụng khi có nhu cầu thay đổi giá trị của biến đầu vào.
+
+-	Quy tắc L
+-	STATIC: các lớp khác sử dụng thông qua chính tên của lớp của nó mà không cần thông qua instance còn không thì instance(thể hiện) của lớp
+-	GLOBAL: De chay project
+-	KHAI BÁO DOMAIN.MODEL(Bài tập)- khai báo biểu đồ lớp
+-	 DataLayer-nơi xử lí với CSDL, tại đây tạo một interface
+		+	Interface được xem như là một lớp, lớp đó có thể được một class hoặc struct khác implement nó
+		+	Interface có các thành viên là methods, properties, indexers, events và không chứa field.
+-	BusinessLayer: cài đặt các chức năng
+		Global.asx -> App-Start- BusinessLayerCofig -> BusinessLayer -> DataLayers  -> DomainModel
+
+		             	/**************     ***************/
+-	 Tạo chuỗi kết nối (Web.config)
+		<connectionStrings>
+			<add name="LiteCommerce" 
+				 connectionString="server=DESKTOP-DOJPAO9\SQLEXPRESS;user id=sa;password=123;database=LiteCommerce"/>
+		</connectionStrings>
+
+
+						/**************  22/05/2020    ***************/
+
+-	 Phân trang: 
+		(@page -1)* @pageSize+1 and @page * @pageSize
+
+-	3 bước thực thi câu lệnh sql:
+		1.	Tạo kết nối
+		2.	Chuẩn bị câu lệnh
+		3.	Thực thi câu lệnh và xử lý câu lệnh trả về(gồm):
+                 +	tra ve nhieu dong nhieu cot: cmd.ExecuteReader
+				 +	tra ve một giá trị: ExecuteScalar
+		             vd: count = Convert.ToInt32(cmd.ExecuteScalar());
+			     +	Trả về số lượng dòng tác động(vd: update,delete): Convert.ToInt32(cmd.ExecuteNonQuery());
+-	tham số truyền qua URL(?ten&ten&...)
+
+
+						/**************  28/05/2020    ***************/
+- IsValid
+-	@html.validationMessage
+	@html.validationSumary
+-	sql profiler
+- thay vif @Model.HireDate -> @string.Fomat("{o:dd/mm/yyyy}",Model.HireDate)
+
+						/**************  04/06/2020    ***************/
+-	[httpost]
+public ActionResult Input(Employee model, HttpPostedFileBase uploadfile){
+//uploadfile
+	string folder= Server.MapPath("~/Images/Upload");
+	//string fileName=uploadFile.FileName;
+	string fileName= $"{Datetime.now.ticks}.{Path.Gettention}"
+	string filePath=Path.Com
+}
+
+-	 return View(),return Content(), return Json
+						/**************  05/06/2020    ***************/
+- Bổ sung thêm bảng countries(chỉ có 1 trường NameContries), sử dụng cho DropDown có liên quan đến Contries
+- Bổ sung thêm bảng Attibutes(AttibuteName) lưu danh sách các tên Attribute có thể sử dụng cho 
+  Product(Size,Color,Weight,...) phục vụ cho việc nhập Attribute của Product
+- Làm hoàn thiện Product
+						/**************  07/06/2020    ***************/
+-	Gọi lại BusinessLayers ở App_Start
+					/**************  11/06/2020    ***************/
+-	 Tạo phiên đăng nhập:
+Yêu cầu:
+1.	Cài đặt thông tin Tite cho WEbUserDate và lưu trữ thêm thông tin này trong coolie
+2.	Bổ sung thêm thông tin "Title" cho lớp UserAccount
+3.	Cài đặt chức năng  Authorize cho EmployeeUserAccountDAL
+-	Role ở webUserRole( sửa tên )
+Yêu câu:
+1.	Bổ sung thêm bảng Employees cột Roles [nvachar(255)]
+	Lưu các Role(GroupName) của nhân viên theo quy ước.
+	các role viết phân cách nhau bởi dấu phẩy
+	vd: Accounttants,Saleman
+2.	GroupName của WebUserData lưu dữ liệu của cột Roles trong bảng Employee
+
+3.	hệ thống có 3 loại user(employee) với các quyền:(tự đặt vd:sale, manager.. định nghĩa các hăng trong webUserRole)
+-	Nhân viên bán hàng: đc phép sử dụng chức năng quản ly đơn hàng(saleman)
+-	nhân viên quản trị dữ liệu: sd cn liên quan đến catalog(management)
+-	nhân viên quản trị tài khoản: đc sd cn liên quan đến nhân viên(accounttants)
+	Dashboard, report, Account: Không cần Authorization
+	enum userType{
+		Sale,
+		Manager,
+		...
+	}

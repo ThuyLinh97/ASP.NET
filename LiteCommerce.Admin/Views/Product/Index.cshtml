@@ -1,0 +1,181 @@
+﻿@model LiteCommerce.Admin.Models.ProductPaginationResult
+@{
+    ViewBag.Title = "Manage Products";
+    int i = 1;
+}
+    <div class="container box box-primary">
+        <div class="row">
+            <form action="~/Product" method="get">
+                <div class="box-body col-sm-3">
+                   @Html.DropDownListFor(m => m.Supplier, SelectListHelper.Suppliers(), new { @class = "form-control" })
+                </div>
+                <div class="box-body col-sm-3">
+                    @Html.DropDownListFor(m => m.Category, SelectListHelper.Categories(), new { @class = "form-control" })
+                </div>
+                <div class="box-body col-md-6">
+                    <div class="input-group input-group-sm">
+                        @Html.TextBoxFor(m => m.SearchValue, new { @class = "form-control", @placeholder = "Input search value..." })                 
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form> 
+        </div>
+    </div> 
+<form action="~/Product/Delete" method="post">
+    <div class="container-fluid row lc-margin-bottom">
+        <div class="col-sm-8">
+            There are <b> @Model.RowCount</b> Products. Page @string.Format("{0}/{1}", Model.Page, Model.PageCount)
+        </div>
+        <div class="col-md-4 text-right">
+            <div class="btn-group">
+                <a href="~/Product/Input" class="btn btn-sm btn-primary">Add Product</a>
+                <button type="submit" class="btn btn-sm btn-danger">Delete Product</button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width:30px">
+                            <input type="checkbox" id="select-all" />
+                        </th>
+                        <th style="width:50px">#</th>
+                        <th style="width:auto">ProductName</th>
+                        <th style="width:auto">CompanyName</th>
+                        <th style="width:200px">CategoryName</th>
+                        <th style="width:200px">UnitPrice</th>
+                        <th style="width:200px">Photo</th>
+                        <th style="width:80px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Data)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="ProductIDs" value="@product.ProductID" />
+                            </td>
+                            <td>@(i++ + (@Model.Page - 1) * (@Model.PageSize))</td>
+                            <td>
+                                <span style="color:blue;font-weight:bold">
+                                    @product.ProductName
+                                </span>
+                            </td>
+                            <td>
+                                @foreach (var companyName in SelectListHelper.Suppliers())
+                                {
+                                    if (product.SupplierID.ToString() == companyName.Value.ToString())
+                                    {
+                                        <span>@companyName.Text</span>
+                                    }
+
+                                }
+                            </td>
+                            <td>
+                                @foreach (var categoryName in SelectListHelper.Categories())
+                                {
+                                    if (product.CategoryID.ToString() == categoryName.Value.ToString())
+                                    {
+                                        <span>@categoryName.Text</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <span>
+                                    @product.UnitPrice
+                                </span>
+                            </td>
+                            <td>
+                                <img src="~/Images/Products/@product.PhotoPath" width="70" height="60" />
+                            </td>
+                            <td class="text-right">
+                                <a class="btn btn-sm btn-default" href="~/Product/Input/@product.ProductID" title="Edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer clearfix text-center">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="~/Product?page=1&searchValue=@Model.SearchValue">«</a></li>
+                @*pageSize=3*@
+                @if (Model.Page > 3 && Model.Page <= Model.PageCount - 3)
+                {
+                    if (Model.Page - 3 > 0)
+                    {
+                        <li><a>...</a></li>
+                    }
+                    for (int page = Model.Page - 2; page <= Model.Page + 2; page++)
+                    {
+                        if (page == Model.Page)
+                        {
+                            <li class="active"><a href="#">@page</a></li>
+                        }
+                        else
+                        {
+                            @*<li><a href="~/Order?Country=@Model.Country&SearchValue=@Model.SearchValue&Page=@page">@page</a></li>*@
+                            <li><a href="~/Product?Supplier=@Model.Supplier&Category=@Model.Category&page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                        }
+                    }
+                    if (Model.Page + 3 <= Model.PageCount)
+                    {
+                        <li><a>...</a></li>
+                    }
+                }
+                else if (Model.Page <= 3)
+                {
+                    var testpage = Model.PageCount;
+                    if (Model.PageCount > 4)
+                    {
+                        testpage = Model.Page + 2;
+                    }
+                    for (int page = 1; page <= testpage; page++)
+                    {
+                        if (page == Model.Page)
+                        {
+                            <li class="active"><a href="#">@page</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="~/Product?Supplier=@Model.Supplier&Category=@Model.Category&page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                        }
+                    }
+                    if (Model.PageCount > 4)
+                    {
+                        <li><a>...</a></li>
+                    }
+                }
+                else
+                {
+                    if (Model.PageCount - 3 > 0)
+                    {
+                        <li><a>...</a></li>
+                    }
+                    for (int page = Model.Page - 2; page <= Model.PageCount; page++)
+                    {
+                        if (page == Model.Page)
+                        {
+                            <li class="active"><a href="#">@page</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="~/Product?Supplier=@Model.Supplier&Category=@Model.Category&page=@page&searchValue=@Model.SearchValue">@page</a></li>
+                        }
+                    }
+                }
+                <li><a href="~/Product?Supplier=@Model.Supplier&Category=@Model.Category&page=@Model.PageCount&searchValue=@Model.SearchValue">»</a></li>
+            </ul>
+        </div>
+    </div>
+</form>
+
+

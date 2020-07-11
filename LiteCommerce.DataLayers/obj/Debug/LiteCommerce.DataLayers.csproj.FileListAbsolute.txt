@@ -1,0 +1,16 @@
+F:\Nam4_HKII\WEB\LiteCommerc\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DataLayers.dll
+F:\Nam4_HKII\WEB\LiteCommerc\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DataLayers.pdb
+F:\Nam4_HKII\WEB\LiteCommerc\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DomainModels.dll
+F:\Nam4_HKII\WEB\LiteCommerc\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DomainModels.pdb
+F:\Nam4_HKII\WEB\LiteCommerc\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.csprojAssemblyReference.cache
+F:\Nam4_HKII\WEB\LiteCommerc\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.csproj.CoreCompileInputs.cache
+F:\Nam4_HKII\WEB\LiteCommerc\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.csproj.CopyComplete
+F:\Nam4_HKII\WEB\LiteCommerc\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.dll
+F:\Nam4_HKII\WEB\LiteCommerc\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.pdb
+F:\Nam4_HKII\WEB\LiteCommerce\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DataLayers.dll
+F:\Nam4_HKII\WEB\LiteCommerce\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DataLayers.pdb
+F:\Nam4_HKII\WEB\LiteCommerce\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DomainModels.dll
+F:\Nam4_HKII\WEB\LiteCommerce\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DomainModels.pdb
+F:\Nam4_HKII\WEB\LiteCommerce\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.dll
+F:\Nam4_HKII\WEB\LiteCommerce\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.pdb
+F:\Nam4_HKII\WEB\LiteCommerce\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.csprojResolveAssemblyReference.cache

@@ -1,0 +1,37 @@
+﻿@model LiteCommerce.DomainModels.Country
+@{
+
+}
+<div class="box box-primary">
+    <form role="form" action="~/Country/Input/@Model.CountryName" method="post">
+        <div class="box-header text-right">
+            <a href="~/Country">Back to List</a>
+        </div>
+        <div class="box-body">
+            <input type="hidden" name="method" value="@ViewBag.Method" />
+            @if (ViewBag.Method == "Edit")
+            {
+                <div class="form-group">
+                    <label>Old Country Name:</label>
+                    <br />
+                    <input type="text" class="form-control" disabled value="@Model.CountryName" />
+                </div>
+            }
+            <div class="form-group">
+                <label>Country Name: <span style="color:red;font-style: italic;font-weight: bold;">*</span></label>
+                @Html.ValidationMessage("CountryName", new { style = "color:red;font-weight:bold" })
+                <input type="text" class="form-control" placeholder="Enter Country Name" name="CountryName" value="@Model.CountryName">
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fa fa-save"></i> Save
+            </button>
+            <a class="btn btn-sm btn-default" href="~/Country">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+

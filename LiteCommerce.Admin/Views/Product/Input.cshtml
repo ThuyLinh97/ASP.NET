@@ -1,0 +1,99 @@
+﻿@model LiteCommerce.DomainModels.Product
+@{
+
+}
+<div class="box box-primary">
+    <form role="form" action="~/Product/Input" method="post" enctype="multipart/form-data">
+        <div class="box-header text-right">
+            <a href="~/Product">Back to List</a>
+        </div>
+        <div class="box-body">
+            <input type="hidden"value="@Model.ProductID"name="ProductID" />
+            <div class="form-group">
+                <label>ProductName:</label>
+                @Html.ValidationMessage("ProductName", new { style = "color:red" })
+                <input type="text" class="form-control" placeholder="Pavlova"name="ProductName"value="@Model.ProductName"required>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label>CompanyName:</label>
+                    @Html.ValidationMessage("SupplierID", new { style = "color:red" })
+                    @*@Html.DropDownListFor(m => m.Supplier, SelectListHelper.Suppliers(), new { @class = "form-control" })*@
+            
+                      <select class="form-control" name="SupplierID">
+                      
+                        @foreach (var companyName in SelectListHelper.Suppliers())
+                        {
+                            if (Model.SupplierID.ToString() == companyName.Value.ToString())
+                            {
+                                <option value="@companyName.Value" selected="@companyName.Text">@companyName.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@companyName.Value">@companyName.Text</option>
+                            }
+                        }
+                    </select>
+                    @*<input type="text" class="form-control"name="CompanyName"value="">*@
+                </div>
+                <div class="col-sm-6">
+                    <label>CategoryName:</label>
+                    @Html.ValidationMessage("CategoryID", new { style = "color:red" })
+                    @*@Html.DropDownListFor(m => m.Category, SelectListHelper.Categories(), new { @class = "form-control"})*@
+                    <select class="form-control" name="CategoryID">
+                        
+                        @foreach (var categoryName in SelectListHelper.Categories())
+                        {
+                            if (Model.CategoryID.ToString() == categoryName.Value.ToString())
+                            {
+                                <option value="@categoryName.Value" selected="@categoryName.Text">@categoryName.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@categoryName.Value">@categoryName.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>          
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label>QuantityPerUnit:<i fa text-></i></label>
+                    <input type="text" class="form-control" placeholder="Enter" name="QuantityPerUnit" value="@Model.QuantityPerUnit" required>
+                </div>
+                <div class="col-sm-6">
+                    <label>UnitPrice:</label>
+                    @Html.ValidationMessage("UnitPrice", new { style = "color:red" })
+                    <input type="text" class="form-control" value="@Model.UnitPrice" name="UnitPrice" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea class="form-control" placeholder="Enter Description "rows="4" cols="50"name="Descriptions">@Model.Descriptions</textarea>
+            </div>
+            <div class="form-group">
+                <label>PhotoPath:</label>
+                @Html.HiddenFor(m => m.PhotoPath)
+                @*<input type="hidden" name="PhotoPath" value="@Model.PhotoPath" />*@
+                <input type="file" class="form-control" name="uploadfile">
+            </div>
+            @*<div>
+                @Html.ValidationMessage("")
+            </div>*@
+        </div>
+
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fa fa-save"></i> Save
+            </button>
+            <a class="btn btn-sm btn-default" href="~/Product">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+
+
+

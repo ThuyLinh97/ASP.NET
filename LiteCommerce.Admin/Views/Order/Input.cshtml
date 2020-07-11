@@ -1,0 +1,127 @@
+﻿@model LiteCommerce.DomainModels.Order
+@{
+
+}
+<div class="box box-primary">
+    <form role="form" action="~/Order/Input" method="post">
+        <div class="box-header text-right">
+            <a href="~/Order">Back to List</a>
+        </div>
+        <div class="box-body">
+            <input type="hidden" value="@Model.OrderID" name="OrderID" />
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <label>Customer:</label>
+                    @Html.ValidationMessage("CustomerID", new { style = "color:red" })
+                   
+                    <select class="form-control" name="CustomerID">
+
+                        @foreach (var companyName in SelectListHelper.Customer())
+                        {
+                            if (Model.CustomerID.ToString() == companyName.Value.ToString())
+                            {
+                                <option value="@companyName.Value" selected="@companyName.Text">@companyName.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@companyName.Value">@companyName.Text</option>
+                            }
+                        }
+                    </select>
+                    @*<input type="text" class="form-control"name="CompanyName"value="">*@
+                </div>
+                <div class="col-sm-4">
+                    <label>Employee:</label>
+                    @Html.ValidationMessage("EmployeeID", new { style = "color:red" })
+                    @*@Html.DropDownListFor(m => m.Category, SelectListHelper.Categories(), new { @class = "form-control"})*@
+                    <select class="form-control" name="EmployeeID">
+
+                        @foreach (var employeeName in SelectListHelper.Employees())
+                        {
+                            if (Model.EmployeeID.ToString() == employeeName.Value.ToString())
+                            {
+                                <option value="@employeeName.Value" selected="@employeeName.Text">@employeeName.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@employeeName.Value">@employeeName.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label>Shipper:</label>
+                    @Html.ValidationMessage("ShipperID", new { style = "color:red" })
+                    @*@Html.DropDownListFor(m => m.Category, SelectListHelper.Categories(), new { @class = "form-control"})*@
+                    <select class="form-control" name="ShipperID">
+
+                        @foreach (var shipper in SelectListHelper.Shipper())
+                        {
+                            if (Model.ShipperID.ToString() == shipper.Value.ToString())
+                            {
+                                <option value="@shipper.Value" selected="@shipper.Text">@shipper.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@shipper.Value">@shipper.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <label>OrderDate:<i fa text-></i></label>
+                    <input type="text" class="form-control" placeholder="Enter" name="OrderDate" value="@Model.OrderDate" required>
+                </div>
+                <div class="col-sm-4">
+                    <label>RequiredDate:</label>
+                    @Html.ValidationMessage("RequiredDate", new { style = "color:red" })
+                    <input type="text" class="form-control" value="@Model.RequiredDate" name="RequiredDate" required>
+                </div>
+                <div class="col-sm-4">
+                    <label>ShippedDate:</label>
+                    @Html.ValidationMessage("ShippedDate", new { style = "color:red" })
+                    <input type="text" class="form-control" value="@Model.ShippedDate" name="ShippedDate" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label>ShipCity:<i fa text-></i></label>
+                    <input type="text" class="form-control" placeholder="Enter" name="ShipCity" value="@Model.ShipCity" required>
+                </div>
+                <div class="col-sm-6">
+                    <label>ShipCountry:</label>
+                    <input type="text" class="form-control" value="@Model.ShipCountry" name="ShipCountry" required>
+                </div>
+            </div>
+          
+            <div class="form-group">
+                <label>ShipAddress:</label>
+                <input class="form-control" placeholder="Enter Description"  name="ShipAddress" value="@Model.ShipAddress">
+            </div>
+
+            <div class="form-group">
+                <label>Freight:</label>
+                <input class="form-control" placeholder="Enter Description" name="Freight" value="@Model.Freight">
+            </div>
+            <div>
+               @Html.ValidationMessage("")
+            </div>
+        </div>
+
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fa fa-save"></i> Save
+            </button>
+            <a class="btn btn-sm btn-default" href="~/Order">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+
+
+
